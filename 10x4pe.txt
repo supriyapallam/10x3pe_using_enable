@@ -1,0 +1,105 @@
+//Design Code
+module pe10x4(output reg [3:0]out,output valid, input [9:0]in,input en);
+  always@*
+    begin
+      if(en==1'b0)
+        begin
+          out=4'b000;
+          valid=1'b0;
+        end
+      else
+        begin
+          if(in[9]==1'b1)
+            begin
+              out=4'b1001;
+              valid=1'b1;
+            end
+          else if(in[8]==1'b1)
+            begin
+              out=4'b1000;
+              valid=1'b1;
+            end
+          else if(in[7]==1'b1)
+            begin
+              out=4'b0111;
+              valid=1'b1;
+            end
+          else if(in[6]==1'b1)
+            begin
+              out=4'b0110;
+              valid=1'b1;
+            end
+          else if(in[5]==1'b1)
+            begin
+              out=4'b0101;
+              valid=1'b1;
+            end
+          else if(in[4]==1'b1)
+            begin
+              out=4'b0100;
+              valid=1'b1;
+            end
+          else if(in[3]==1'b1)
+            begin
+              out=4'b0011;
+              valid=1'b1;
+            end
+          else if(in[2]==1'b1)
+            begin
+              out=4'b0010;
+              valid=1'b1;
+            end
+          else if(in[1]==1'b1)
+            begin
+              out=4'b0001;
+              valid=1'b1;
+            end
+          else if(in[0]==1'b1)
+            begin
+              out=4'b0000;
+              valid=1'b1;
+            end
+          else
+            begin
+              out=4'b0000;
+              valid=1'b0;
+            end
+        end
+    end
+endmodule
+
+//Test Bench Code
+module test();
+  wire [3:0]out;
+  wire valid;
+  reg[9:0]in;
+  reg en;
+  integer i;
+  pe10x4 dut(out,valid,in,en);
+  initial
+    begin
+      for(i=0;i<2;i=i+1)
+        begin
+          en=i;
+          begin
+            integer j;
+            for(j=0;j<1024;j=j+1)
+              begin
+                in=j;
+                #10;
+              end
+          end
+          #10;
+        end
+    end
+  initial
+    begin
+      $monitor("en=%b,in=%b,out=%b,valid=%b",en,in,out,valid);
+    end
+  initial
+    begin
+      $dumpfile("test.vcd");
+      $dumpvars(1);
+    end
+endmodule
+
